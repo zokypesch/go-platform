@@ -82,6 +82,9 @@ curl http://localhost:8080/metrics
 # Check data usage
 ./scripts/check-data-usage.sh
 
+# Check Docker container log sizes
+./scripts/check-docker-logs.sh
+
 # Clear all logs and traces (stops services, clears data, restarts)
 ./scripts/clear-logs.sh
 
@@ -90,3 +93,18 @@ docker-compose stop loki tempo
 rm -rf data/loki/* data/tempo/*
 docker-compose start loki tempo
 ```
+
+## Docker Logging Configuration
+
+All containers are configured with log rotation to prevent disk space issues:
+
+### Log Limits per Container
+- **Max file size**: 10MB
+- **Max files**: 3 (rotated)
+- **Total per container**: 30MB maximum
+- **All containers combined**: ~210MB maximum
+
+### Log Rotation
+- Docker automatically rotates logs when they reach 10MB
+- Only keeps the latest 3 log files per container
+- Older files are automatically deleted

@@ -9,7 +9,8 @@
       "Bash(ls:*)",
       "Bash(chmod:*)",
       "Bash(./scripts/check-data-usage.sh:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(./scripts/check-docker-logs.sh:*)"
     ],
     "deny": []
   }
