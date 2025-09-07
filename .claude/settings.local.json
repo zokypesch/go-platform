@@ -5,7 +5,11 @@
       "Bash(docker-compose:*)",
       "Bash(docker logs:*)",
       "Bash(curl:*)",
-      "Bash(docker exec:*)"
+      "Bash(docker exec:*)",
+      "Bash(ls:*)",
+      "Bash(chmod:*)",
+      "Bash(./scripts/check-data-usage.sh:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }

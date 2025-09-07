@@ -64,5 +64,29 @@ curl http://localhost:8080/metrics
 - `config/alert-rules.yml` - Alerting rules
 - `config/alertmanager.yml` - Alert routing
 - `config/grafana/dashboards/api-dashboard.json` - API dashboard
-- `config/tempo-config.yml` - Tempo tracing configuration
-- `config/loki-config.yml` - Loki logging configuration
+- `config/tempo-config.yml` - Tempo tracing configuration (2 weeks retention)
+- `config/loki-config.yml` - Loki logging configuration (2 weeks retention)
+
+## Data Management
+
+### Persistent Volumes
+- `data/loki/` - Loki logs storage (mounted volume)
+- `data/tempo/` - Tempo traces storage (mounted volume)
+
+### Data Retention
+- **Logs**: 2 weeks (336 hours) - automatic cleanup
+- **Traces**: 2 weeks (336 hours) - automatic cleanup
+
+### Manual Data Management
+```bash
+# Check data usage
+./scripts/check-data-usage.sh
+
+# Clear all logs and traces (stops services, clears data, restarts)
+./scripts/clear-logs.sh
+
+# Manual cleanup (services must be stopped first)
+docker-compose stop loki tempo
+rm -rf data/loki/* data/tempo/*
+docker-compose start loki tempo
+```

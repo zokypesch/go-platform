@@ -15,10 +15,13 @@ ingester:
 
 compactor:
   compaction:
-    block_retention: 1h
+    # Set retention to 2 weeks (336 hours)
+    block_retention: 336h
 
 storage:
   trace:
     backend: local
     local:
       path: /tmp/tempo/blocks
+    block:
+      bloom_filter_false_positive: 0.05
