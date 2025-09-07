@@ -106,6 +106,11 @@ func getTraceID(c *fiber.Ctx) string {
 
 func prometheusMiddleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		// Skip metrics collection for the /metrics endpoint itself
+		if c.Path() == "/metrics" {
+			return c.Next()
+		}
+
 		start := time.Now()
 
 		err := c.Next()
