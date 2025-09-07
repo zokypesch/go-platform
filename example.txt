@@ -1,0 +1,41 @@
+ok please do following action:
+we using: 
+- loki and Promtail
+- Metrics → Prometheus
+- Traces → Fiber (OTel SDK) → Tempo or Jaeger
+- Dashboards → Grafana
+- Alerts → Alertmanager
+
+- create simple API using go + fiber:
+    - this api have a demo hit external API with random response (401, 500, timeout, etc)
+    - this api would have /health endpoint
+    - create a simple middleware for logging:
+    - expose a metrics
+    - and also for tracing
+- create a docker compose for all our service
+    - loki
+    - promtail
+    - prometheus
+    - grafana
+    - alertmanager
+    - tempo or jaeger
+    - our api
+- please generate a dashboard grafana yaml for our api
+    - this dashboard would have:
+        - request per second
+        - response time
+        - error rate
+- please generate a alert grafana yaml for our api
+    - this alert would have:
+        - if our api response time > 1s for 5m then send alert
+        - if our api error rate > 10% for 5m then send alert
+        - if our api response time > 5s for 1m then send alert
+        - if our api error rate > 50% for 1m then send alert
+- this alert is sending to alertmanager
+- please generate a prometheus yaml for our api
+    - this prometheus yaml would have:
+        - scrape our api metrics
+        - scrape our api traces
+
+# how to run loki query
+{container_name="go-platform-api-1"} |= "GET /api/external" |= "500"

@@ -1,0 +1,38 @@
+groups:
+  - name: go-platform-api-alerts
+    rules:
+      - alert: HighResponseTime5m
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="go-platform-api"}[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High response time detected"
+          description: "API response time is above 1 second for more than 5 minutes (current: {{ $value }}s)"
+
+      - alert: HighErrorRate5m
+        expr: (rate(http_requests_total{job="go-platform-api",status=~"4..|5.."}[5m]) / rate(http_requests_total{job="go-platform-api"}[5m])) * 100 > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate detected"
+          description: "API error rate is above 10% for more than 5 minutes (current: {{ $value }}%)"
+
+      - alert: CriticalResponseTime1m
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="go-platform-api"}[1m])) > 5
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical response time detected"
+          description: "API response time is above 5 seconds for more than 1 minute (current: {{ $value }}s)"
+
+      - alert: CriticalErrorRate1m
+        expr: (rate(http_requests_total{job="go-platform-api",status=~"4..|5.."}[1m]) / rate(http_requests_total{job="go-platform-api"}[1m])) * 100 > 50
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical error rate detected"
+          description: "API error rate is above 50% for more than 1 minute (current: {{ $value }}%)"
