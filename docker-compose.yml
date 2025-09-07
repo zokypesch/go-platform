@@ -12,6 +12,11 @@ services:
       - loki
     networks:
       - monitoring
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Loki for logs
   loki:
@@ -24,6 +29,11 @@ services:
       - ./data/loki:/tmp/loki                                    # ← Loki data directory
     networks:
       - monitoring
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Promtail for log collection
   promtail:
@@ -38,6 +48,11 @@ services:
       - loki
     networks:
       - monitoring
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Prometheus for metrics
   prometheus:
@@ -56,6 +71,11 @@ services:
       - '--web.enable-admin-api'
     networks:
       - monitoring
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Tempo for traces
   tempo:
@@ -70,6 +90,11 @@ services:
     command: -config.file=/etc/tempo/tempo.yml
     networks:
       - monitoring
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Grafana for dashboards
   grafana:
@@ -88,6 +113,11 @@ services:
       - tempo
     networks:
       - monitoring
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Alertmanager for alerts
   alertmanager:
@@ -102,6 +132,11 @@ services:
       - '--web.external-url=http://localhost:9093'
     networks:
       - monitoring
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   monitoring:
